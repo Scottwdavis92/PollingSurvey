@@ -7,8 +7,9 @@ namespace PollingApplication.ViewModels
     {
         public ICollection<Employee> Employees { get; set; } = new List<Employee>();
         public IEnumerable<Department> Departments { get; set; } = new List<Department>();
-        public ObservableCollection<SurveyComment> SurveyComments { get;} = new ObservableCollection<SurveyComment>();
-        public ObservableCollection<SurveyResponse> SurveyResponses { get;} = new ObservableCollection<SurveyResponse>();
+        public IEnumerable<SurveyResponse> SurveyResponses { get; set; } = new List<SurveyResponse>();
+        public IEnumerable<SurveyComment> SurveyComments { get;set; } = new List<SurveyComment>();
+        
 
     }
 }

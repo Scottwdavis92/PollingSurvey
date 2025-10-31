@@ -16,18 +16,33 @@ namespace PollingApplication.Controllers
         private readonly SurveyInvite _surveyInvite;
         private readonly EmployeeFetch _employeeFetch;
         private readonly Mailer _mailer;
+        private readonly FetchSurveyResults _fetchSurveyResults;
 
-        public SurveyReportController(ILogger<SurveyReportController> logger, SurveyInvite surveyInvite, EmployeeFetch employeeFetch, Mailer mailer)
+        public SurveyReportController(ILogger<SurveyReportController> logger, SurveyInvite surveyInvite, EmployeeFetch employeeFetch, Mailer mailer, FetchSurveyResults fetchSurveyResults)
         {
             _logger = logger;
             _mailer = mailer;
             _surveyInvite = surveyInvite;
             _employeeFetch = employeeFetch;
+            _fetchSurveyResults = fetchSurveyResults;
         }
 
-        public IActionResult Index()
+        [HttpGet]
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var employeeResponces = await _fetchSurveyResults.GetAllSurveyResponseAsync();
+            var employeeComments = await _fetchSurveyResults.GetAllSurveyCommentsAsync();
+
+            var averageGenQenScore = await _fetchSurveyResults.GetAverageQuestionScore();
+
+            var viewModel = new SurveyResults
+            {
+                 SurveyResponses = employeeResponces,
+                 SurveyComments = employeeComments
+
+            };
+
+            return View(viewModel);
         }
 
         [HttpGet]

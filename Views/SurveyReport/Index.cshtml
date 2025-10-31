@@ -1,8 +1,35 @@
-﻿@using PollingApplication.Models;
+﻿
 @model PollingApplication.ViewModels.SurveyResults;
 
 @{
     ViewData["Title"] = "SurveyReport";
+
 }
 
 <h1>@ViewData["Title"]</h1>
+
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Employee</th>
+                <th>Department</th>
+                <th>QuestionType</th>
+                <th>Question</th>
+                <th>Survey Scale</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var result in Model.SurveyResponses)
+            {
+                <tr>
+                    <td>@result.Employee.FirstName @result.Employee.LastName</td>
+                    <td>@result.Employee.Department.DepartmentName</td>
+                    <td>@result.Question.ScopeType</td>
+                    <td>@result.Question.Questions</td>
+                    <td>@result.ScaleValue</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

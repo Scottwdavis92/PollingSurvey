@@ -4,6 +4,7 @@ using PollingApplication.Startup;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddDependencies();
+builder.AddScopeDependencies();
 
 var app = builder.Build();
 

@@ -27,11 +27,6 @@ namespace PollingApplication.Startup
                 options.LoginPath = "/Account/Login";
             });
 
-            builder.Services.AddScoped<PollingApplication.Services.SurveyInvite>();
-            builder.Services.AddScoped<PollingApplication.Services.EmployeeFetch>();
-            builder.Services.AddScoped<PollingApplication.Services.Mailer>();
-            builder.Services.AddScoped<PollingApplication.Services.QuestionFetch>();
-            builder.Services.AddScoped<PollingApplication.Services.SubmittedSurvey>();
         }
     }
 }
