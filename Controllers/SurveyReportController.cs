@@ -65,13 +65,7 @@ namespace PollingApplication.Controllers
 
                 var emailstatus = await _mailer.SendEmailAsync(invitation, surveyUrl);
 
-                // Construct the survey link using the unique token.
-                //var surveyUrl = Url.Action("Index", "Survey", new { token = invitation.Token }, Request.Scheme);
-
-                // TODO: Send the email to the employee.
-                // You can use a library like MailKit or your preferred email service.
-                // Example email content:
-                // "Hello [Employee Name], please complete your survey here: " + surveyUrl
+                
 
                 ViewBag.Message = $"Survey invite created successfully for employee {SelectedEmployee.SelectedEmployeeId}.";
             }

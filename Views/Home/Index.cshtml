@@ -4,5 +4,15 @@
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
+    <p>Welcome to Scott's polling application'</p>
+
+    <button onclick="redirectToSurveyAdmin()">Admin Page</button>
     
 </div>
+
+<script>
+    function redirectToSurveyAdmin() {
+        // Redirect to the Survey action in Home controller
+        window.location.href = '@Url.Action("Index", "SurveyReport")';
+    }
+</script>

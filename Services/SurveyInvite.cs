@@ -42,5 +42,23 @@ namespace PollingApplication.Services
                 .Include(ss => ss.Employee)
                 .FirstOrDefaultAsync(ss => ss.SurveyGuid == surveyGuid);
         }
+
+        public async Task<SurveySessionId?> MarkSurveyAsCompletedAsync(Guid surveyGuid)
+        {
+            var surveyInvite = await _context.SurveySessions.FirstOrDefaultAsync(ss => ss.SurveyGuid == surveyGuid);
+            if (surveyInvite != null)
+            {
+                surveyInvite.Completed = true;
+                surveyInvite.EndTime = DateTime.UtcNow;
+                await _context.SaveChangesAsync();
+                _logger.LogInformation("Marked survey as completed for SurveyGuid: {SurveyGuid}", surveyGuid);
+            }
+            else
+            {
+                _logger.LogWarning("Survey invite with SurveyGuid: {SurveyGuid} not found. Cannot mark as completed.", surveyGuid);
+            }
+
+            return surveyInvite;
+        }
     }
 }

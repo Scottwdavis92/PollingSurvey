@@ -31,6 +31,7 @@ namespace PollingApplication.Startup
             builder.Services.AddScoped<PollingApplication.Services.EmployeeFetch>();
             builder.Services.AddScoped<PollingApplication.Services.Mailer>();
             builder.Services.AddScoped<PollingApplication.Services.QuestionFetch>();
+            builder.Services.AddScoped<PollingApplication.Services.SubmittedSurvey>();
         }
     }
 }

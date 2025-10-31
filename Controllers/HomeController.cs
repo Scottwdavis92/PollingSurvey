@@ -12,12 +12,14 @@ namespace PollingApplication.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly SurveyInvite _surveyInvite;
         private readonly QuestionFetch _questionfetch;
+        private readonly SubmittedSurvey _submittedSurvey;
 
-        public HomeController(ILogger<HomeController> logger, SurveyInvite surveyInvite, QuestionFetch questionFetch)
+        public HomeController(ILogger<HomeController> logger, SurveyInvite surveyInvite, QuestionFetch questionFetch, SubmittedSurvey submittedSurvey)
         {
             _logger = logger;
             _surveyInvite = surveyInvite;
             _questionfetch = questionFetch;
+            _submittedSurvey = submittedSurvey;
         }
 
         public IActionResult Index()
@@ -28,6 +30,11 @@ namespace PollingApplication.Controllers
         public IActionResult Privacy()
         {
             
+            return View();
+        }
+
+        public IActionResult SurveyCompleted()
+        {
             return View();
         }
 
@@ -74,13 +81,27 @@ namespace PollingApplication.Controllers
         [HttpPost]
         public async Task<IActionResult> SubmitSurvey([FromBody] SubmitSurvey model)
         {
+            
 
-            var surveyId = await _surveyInvite.GetSurveyInviteByGuidAsync(Guid.Parse(model.SurveyGuid));
-            // 1. Process the submitted data.
-            // 2. Save the response to your database.
-            // 3. Return a confirmation view.
-            ViewBag.Message = "Thank you for your feedback!";
-            return View("SurveyConfirmation");
+            var surveyId = await _surveyInvite.MarkSurveyAsCompletedAsync(Guid.Parse(model.SurveyGuid));
+
+            foreach (var surRes in model.surveyResponses)
+            {
+                surRes.SurveySessionId = surveyId!.Id;
+                await _submittedSurvey.SaveSubmittedResponseSurveyAsync(surRes);
+            }
+
+            if (!string.IsNullOrWhiteSpace(model.surveyComments))
+            {
+                await _submittedSurvey.SaveSubmittedCommentAsync(model.surveyComments!, surveyId!.Id, surveyId!.EmployeeId);
+            }
+            
+            return Json(new
+            {
+                success = true,
+                message = "Thank you for your feedback!",
+                redirectUrl = Url.Action("SurveyCompleted", "Home") // Generate the URL to the completion view
+            });
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -65,7 +65,8 @@
             if (selectedOption) {
                 responseList.push({
                     QuestionId: questionId,
-                    ScaleValue: selectedOption.value
+                    ScaleValue: selectedOption.value,
+                    EmployeeId: employeeId
                 });
             }
         });
@@ -75,8 +76,7 @@
         var submissionData = {
             SurveyGuid: surveyGuid,
             surveyResponses: responseList,
-            surveyComments: additionalComments,
-            employeeId: employeeId
+            surveyComments: additionalComments
         };
 
         fetch('/Home/SubmitSurvey', {
@@ -89,7 +89,9 @@
         })
         .then(response => response.json())
         .then(data => {
-            alert('Survey submitted successfully!');
+            if(data.redirectUrl){
+                window.location.href = data.redirectUrl;
+            };
         })
         .catch(error => {
             console.error('Error:', error);
