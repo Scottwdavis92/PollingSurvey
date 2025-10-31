@@ -1,0 +1,99 @@
+﻿@using PollingApplication.Models;
+@model PollingApplication.ViewModels.SurveyerModel;
+
+@{
+    ViewData["Title"] = "Survey Results";
+
+    var generalDep = Model.genQuestions.FirstOrDefault();
+    var specificDep = Model.deptQuestions.FirstOrDefault();
+}
+
+<form asp-controller="Home" asp-action="SubmitSurvey" method="post">
+    <input type="hidden" name="SurveyGuid" value="@Model.SurveyGuid" />
+
+    <h2>@generalDep?.Department?.DepartmentName</h2>
+
+        @foreach (var question in Model.genQuestions)
+        {
+            <h5>@question.Questions</h5>
+
+            <div class="scale-options" data-question-id="@question.Id">
+
+                @foreach (var item in Model.ScaleValues)
+                {
+                    <input type="radio" name="Q_@question.Id" value="@item.Value"/>
+                    <label>@item.Text</label>
+                }
+
+            </div>
+        }
+
+        <h2>@specificDep?.Department?.DepartmentName</h2>
+
+        @foreach (var question in Model.deptQuestions)
+        {
+
+            <h5>@question.Questions</h5>
+
+            <div class="scale-options" data-question-id="@question.Id">
+
+                @foreach (var item in Model.ScaleValues)
+                {
+                    <input type="radio" name="Q_@question.Id" value="@item.Value"/>
+                    <label>@item.Text</label>
+                }
+            </div>
+        }
+
+        <h2>Addition Comments</h2>
+        <div class="form-group">
+            <textarea name="AdditionalComments" id="commentsText" class="form-control" rows="4"></textarea>
+        </div>
+
+    <button type="button" onclick="submitSurveyAjax()">Submit</button>
+</form>
+
+<script>
+    function submitSurveyAjax() {
+        var surveyGuid = '@Model.SurveyGuid';
+        var employeeId = '@Model.EmployeeId';
+        var responseList = [];
+        
+        document.querySelectorAll('.scale-options').forEach(function (optionDiv) {
+            var questionId = optionDiv.getAttribute('data-question-id');
+            var selectedOption = optionDiv.querySelector('input[type="radio"]:checked');
+            if (selectedOption) {
+                responseList.push({
+                    QuestionId: questionId,
+                    ScaleValue: selectedOption.value
+                });
+            }
+        });
+        
+        var additionalComments = document.getElementById('commentsText').value;
+
+        var submissionData = {
+            SurveyGuid: surveyGuid,
+            surveyResponses: responseList,
+            surveyComments: additionalComments,
+            employeeId: employeeId
+        };
+
+        fetch('/Home/SubmitSurvey', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(submissionData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert('Survey submitted successfully!');
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while submitting the survey.');
+        });
+    }
+</script>
