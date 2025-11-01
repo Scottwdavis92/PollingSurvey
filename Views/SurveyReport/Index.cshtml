@@ -9,7 +9,15 @@
 
 }
 
-<h1>@ViewData["Title"]</h1>
+<div class="row mb-4">
+    <div class="col-md-8">
+        <h1>@ViewData["Title"]</h1>
+    </div>
+    <div class="col-md-4">
+        <button onclick="redirectToSurveyInvite()">Invite Employee</button>
+    </div>
+</div>
+
 <div class="row mb-4" style="min-height: 600px;">
     <div class="col-md-7 d-flex">
         <div class="card shadow-sm rounded flex-grow-1">
@@ -20,14 +28,15 @@
 
             <div class="card-body overflow-auto" style="max-height: 500px;">
                     <table class="table">
+                    <caption>Table shows every employee's average scores breakdown</caption>
                         <thead>
                             <tr>
-                                <th>Employee Id</th>
-                                <th>Employee</th>
-                                <th>Department</th>
-                                <th>QuestionType</th>
-                                <th>Question</th>
-                                <th>Average Score</th>
+                                <th scope="col">Employee Id</th>
+                                <th scope="col">Employee</th>
+                                <th scope="col">Department</th>
+                                <th scope="col">QuestionType</th>
+                                <th scope="col">Question</th>
+                                <th scope="col">Average Score</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -82,10 +91,11 @@
                                 <h5 class="card-title">Average Scores for @group.Key</h5>
 
                                 <table class="table">
+                                <caption>Table shows average scores for @group.Key department</caption>
                                     <thead>
                                         <tr>
-                                            <th>Question</th>
-                                            <th>Average Score</th>
+                                            <th scope="col">Question</th>
+                                            <th scope="col">Average Score</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -116,12 +126,13 @@
 
             <div class="card-body overflow-auto" style="max-height: 500px;">
                 <table class="table">
+                    <caption>Table shows additional comments from employees</caption>
                     <thead>
                         <tr>
-                            <th>Employee Id</th>
-                            <th>Employee</th>
-                            <th>Department</th>
-                            <th>Comments</th>
+                            <th scope="col">Employee Id</th>
+                            <th scope="col">Employee</th>
+                            <th scope="col">Department</th>
+                            <th scope="col">Comments</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -142,3 +153,10 @@
         </div>
     </div>
 </div>
+
+<script>
+    function redirectToSurveyInvite() {
+        // Redirect to the Survey action in Home controller
+        window.location.href = '@Url.Action("SurveyInvite", "SurveyReport")';
+    }
+</script>

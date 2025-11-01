@@ -8,17 +8,18 @@
     var specificDep = Model.deptQuestions.FirstOrDefault();
 }
 
-<form asp-controller="Home" asp-action="SubmitSurvey" method="post">
+<form asp-controller="Home" asp-action="SubmitSurvey" method="post" id="surveyForm">
     
     <input type="hidden" name="SurveyGuid" value="@Model.SurveyGuid" />
     
     <div class="row  mb-4">
+        <div class="col-md-12">
         <div class="card shadow-sm">
         
             <div class="card-header">
                 <h3 class="card-title">@generalDep?.Department?.DepartmentName</h3>
             </div>
-
+            <div class="card-body">
                     @foreach (var question in Model.genQuestions)
                     {
                         <div class="row align-items-center mb-3 g-3">
@@ -33,7 +34,7 @@
                                     {
                                         <div class="form-check d-inline-flex flex-column align-items-center me-3">
                                             <label>@item.Text</label>
-                                            <input type="radio" name="Q_@question.Id" value="@item.Value"/>
+                                            <input type="radio" name="Q_@question.Id" value="@item.Value" class="form-check-input" required />
                                         </div>
                                     }
 
@@ -41,17 +42,20 @@
                             </div>
                         </div> 
                     }
+             </div>
        
          </div> 
+         </div>
      </div>
 
     <div class="row mb-4">
+        <div class="col-md-12">
         <div class="card shadow-sm">
 
             <div class="card-header">
                 <h3 class="card-title">@specificDep?.Department?.DepartmentName</h3>
             </div>
-
+            <div class="card-body">
                 @foreach (var question in Model.deptQuestions)
                 {
                     <div class="row align-items-center mb-3 g-3">
@@ -67,35 +71,49 @@
                                 {
                                     <div class="form-check d-inline-flex flex-column align-items-center me-3">
                                         <label>@item.Text</label>
-                                        <input type="radio" name="Q_@question.Id" value="@item.Value"/>
+                                            <input type="radio" name="Q_@question.Id" value="@item.Value" class="form-check-input" required />
                                     </div>
                                 }
                             </div>
                         </div>
                     </div>
                 }
-       
+                </div>
 
+        </div>
         </div>
     </div>
 
-    <div class="row">
+    <div class="row mb-4">
+            <div class="col-md-12">
         <div class="card shadow-sm">
          
             <div class="card-header">
                 <h3 class="card-title">Addition Comments</h3>
             </div>
-            <div class="form-group">
-                <textarea name="AdditionalComments" id="commentsText" class="form-control" rows="4"></textarea>
-            </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="commentsText" class="form-label">Additional Comments (Optional)</label>
+                        <textarea name="AdditionalComments" id="commentsText" class="form-control" rows="4"></textarea>
+                    </div>
+                </div>
+        </div>
         </div>
     </div>
 
-    <button type="button" onclick="submitSurveyAjax()">Submit</button>
+    <button type="button" onclick="submitSurveyAjax()">Submit Survey</button>
 </form>
 
 <script>
     function submitSurveyAjax() {
+
+        var form = document.getElementById('surveyForm');
+
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+        }
+
         var surveyGuid = '@Model.SurveyGuid';
         var employeeId = '@Model.EmployeeId';
         var responseList = [];
