@@ -94,7 +94,7 @@ namespace PollingApplication.Controllers
                 ViewBag.Error = ex.Message;
             }
 
-            return View("Index");
+            return RedirectToAction("Index", "SurveyReport");
         }
 
     }
