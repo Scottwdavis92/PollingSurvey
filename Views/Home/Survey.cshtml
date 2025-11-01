@@ -9,57 +9,87 @@
 }
 
 <form asp-controller="Home" asp-action="SubmitSurvey" method="post">
+    
     <input type="hidden" name="SurveyGuid" value="@Model.SurveyGuid" />
+    
+    <div class="row  mb-4">
+        <div class="card shadow-sm">
+        
+            <div class="card-header">
+                <h3 class="card-title">@generalDep?.Department?.DepartmentName</h3>
+            </div>
 
-    <div class="card shadow-sm">
-        <div class="card-header">
-            <h3>Please complete the survey below:</h3>
-        </div>
-        <h2>@generalDep?.Department?.DepartmentName</h2>
-
-
-            @foreach (var question in Model.genQuestions)
-            {
-                <h5>@question.Questions</h5>
-
-                <div class="scale-options" data-question-id="@question.Id">
-
-                    @foreach (var item in Model.ScaleValues)
+                    @foreach (var question in Model.genQuestions)
                     {
-                        <div class="form-check form-check-inline">
-                            <input type="radio" name="Q_@question.Id" value="@item.Value"/>
-                            <label>@item.Text</label>
-                        </div>
+                        <div class="row align-items-center mb-3 g-3">
+                            <div class="col-md-6">
+                                <h5 class="mb-0">@question.Questions</h5>
+                            </div>
+
+                        <div class="col-md-6">
+                                <div class="scale-options" data-question-id="@question.Id">
+
+                                    @foreach (var item in Model.ScaleValues)
+                                    {
+                                        <div class="form-check d-inline-flex flex-column align-items-center me-3">
+                                            <label>@item.Text</label>
+                                            <input type="radio" name="Q_@question.Id" value="@item.Value"/>
+                                        </div>
+                                    }
+
+                                </div>
+                            </div>
+                        </div> 
                     }
-
-                </div>
-            }
-
-            <h2>@specificDep?.Department?.DepartmentName</h2>
-
-            @foreach (var question in Model.deptQuestions)
-            {
-
-                <h5>@question.Questions</h5>
-
-                <div class="scale-options" data-question-id="@question.Id">
-
-                    @foreach (var item in Model.ScaleValues)
-                    {
-                        <div class="form-check form-check-inline">
-                            <input type="radio" name="Q_@question.Id" value="@item.Value"/>
-                            <label>@item.Text</label>
-                        </div>
-                    }
-                </div>
-            }
-
+       
+         </div> 
      </div>
 
-        <h2>Addition Comments</h2>
-        <div class="form-group">
-            <textarea name="AdditionalComments" id="commentsText" class="form-control" rows="4"></textarea>
+    <div class="row mb-4">
+        <div class="card shadow-sm">
+
+            <div class="card-header">
+                <h3 class="card-title">@specificDep?.Department?.DepartmentName</h3>
+            </div>
+
+                @foreach (var question in Model.deptQuestions)
+                {
+                    <div class="row align-items-center mb-3 g-3">
+
+                        <div class="col-md-6">
+                            <h5 class="me-3 mb-0">@question.Questions</h5>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="scale-options" data-question-id="@question.Id">
+
+                                @foreach (var item in Model.ScaleValues)
+                                {
+                                    <div class="form-check d-inline-flex flex-column align-items-center me-3">
+                                        <label>@item.Text</label>
+                                        <input type="radio" name="Q_@question.Id" value="@item.Value"/>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+       
+
         </div>
+    </div>
+
+    <div class="row">
+        <div class="card shadow-sm">
+         
+            <div class="card-header">
+                <h3 class="card-title">Addition Comments</h3>
+            </div>
+            <div class="form-group">
+                <textarea name="AdditionalComments" id="commentsText" class="form-control" rows="4"></textarea>
+            </div>
+        </div>
+    </div>
 
     <button type="button" onclick="submitSurveyAjax()">Submit</button>
 </form>
