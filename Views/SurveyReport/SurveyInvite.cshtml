@@ -4,15 +4,20 @@
     ViewData["Title"] = "Survey Invite";
 }
 
-<form asp-controller="SurveyReport" asp-action="SendSurveyInvite" method="post">
+<div class="text-center">
+    <div class="d-flex justify-content-center">
+        <form asp-controller="SurveyReport" asp-action="SendSurveyInvite" method="post">
     
-    <div class="form-group">
-        <label asp-for="SelectedEmployeeId"></label>
-        <select asp-for="SelectedEmployeeId" asp-items="Model.Employees" class="form-control">
-            <option value="">-- Choose an option --</option>
-        </select>
-    </div>
-    <input type="submit" value="Select" class="btn btn-primary" />
+            <div class="form-group text-start">
+                <label asp-for="SelectedEmployeeId"></label>
+                <select asp-for="SelectedEmployeeId" asp-items="Model.Employees" class="form-control">
+                    <option value="">-- Choose an option --</option>
+                </select>
+            </div>
+        
+            <input type="submit" value="Select" class="btn btn-primary mt-4" />
 
-</form>
+        </form>
+    </div>
+</div>
 

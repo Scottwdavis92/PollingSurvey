@@ -1,0 +1,23 @@
+protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.InsertData(
+                table: "Departments", // The name of your department table
+                columns: new[] { "DepartmentId", "DepartmentName", "DepartmentDescription" },
+                values: new object[,]
+                {
+                    { 0, "GeneralDepartment", "All Departments" },
+                    { 1, "Engineering", "Manages and develops new technologies and software." },
+                    { 2, "Marketing", "Promotes company products and services." },
+                    { 3, "Sales", "Oversees customer acquisition and revenue generation." },
+                    { 4, "Human Resources", "Handles employee recruitment, development, and support." },
+                    { 5, "Finance", "Manages the company's financial operations and assets." }
+                });
+        }
+
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DeleteData(
+                table: "Departments",
+                keyColumn: "DepartmentId",
+                keyValues: new object[] { 0, 1, 2, 3, 4, 5 });
+        }

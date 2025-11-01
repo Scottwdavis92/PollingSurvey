@@ -4,20 +4,22 @@
 <div class="text-center">
     <h1 class="display-4">Survey Admin Login</h1>
 
-    <form asp-controller="Account" asp-action="Login" method="post">
+    <div class="d-flex justify-content-center">
+        <form asp-controller="Account" asp-action="Login" method="post">
         <input type="hidden" asp-for="ReturnUrl" />
-        <div class="form-group">
+        <div class="form-group text-start">
             <label asp-for="Email"></label>
             <input asp-for="Email" class="form-control" />
             <span asp-validation-for="Email" class="text-danger"></span>
             <label asp-for="Password"></label>
             <input asp-for="Password" class="form-control" type="password" />
             <span asp-validation-for="Password" class="text-danger"></span>
-            <input asp-for="RememberMe" type="checkbox" />
+            <input asp-for="RememberMe" type="checkbox" value="false" />
             <label asp-for="RememberMe"></label>            
         </div>
-        <input type="submit" value="Login" class="btn btn-primary" />
+        <input type="submit" value="Login" class="btn btn-primary mt-3" />
 
-    </form>
+        </form>
+    </div>
 
 </div>

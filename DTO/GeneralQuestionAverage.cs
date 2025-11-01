@@ -6,5 +6,6 @@
         public int AverageScore { get; set; }
 
         public string DepartmentName { get; set; } = string.Empty;
+
     }
 }

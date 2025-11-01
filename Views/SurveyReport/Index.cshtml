@@ -4,32 +4,141 @@
 @{
     ViewData["Title"] = "SurveyReport";
 
+    var departmentName = Model.GeneralQuestionAverages.GroupBy(d => d.DepartmentName).ToList();
+    var employeeScore = Model.EmployeeQuestionAverages.OrderBy(o => o.DepartmentType).ToList();
+
 }
 
 <h1>@ViewData["Title"]</h1>
+<div class="row mb-4" style="min-height: 600px;">
+    <div class="col-md-7 d-flex">
+        <div class="card shadow-sm rounded flex-grow-1">
+                <div class="card-header">
+                    <h5 class="card-title">Employee Survey Results</h5>
+                </div>
 
-<div>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Employee</th>
-                <th>Department</th>
-                <th>QuestionType</th>
-                <th>Question</th>
-                <th>Survey Scale</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var result in Model.SurveyResponses)
-            {
-                <tr>
-                    <td>@result.Employee.FirstName @result.Employee.LastName</td>
-                    <td>@result.Employee.Department.DepartmentName</td>
-                    <td>@result.Question.ScopeType</td>
-                    <td>@result.Question.Questions</td>
-                    <td>@result.ScaleValue</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+
+            <div class="card-body overflow-auto" style="max-height: 500px;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Employee Id</th>
+                                <th>Employee</th>
+                                <th>Department</th>
+                                <th>QuestionType</th>
+                                <th>Question</th>
+                                <th>Average Score</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var result in employeeScore)
+                            {
+                                <tr>
+                                    <td>@result.EmployeeId</td>
+                                    <td>@result.EmployeeName</td>
+                                    <td>@result.DepartmentName</td>
+                                    <td>@result.DepartmentType</td>
+                                    <td>@result.QuestionText</td>
+                                    <td>@result.AverageScore</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+             </div>
+            
+        </div>
+    </div>
+
+    <div class="col-md-5 d-flex">
+        <div class="card shadow-sm rounded flex-grow-1">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs" role="tablist">
+
+                    @foreach (var group in departmentName)
+                    {
+                        var tabId = group.Key.Replace(" ", "-").ToLower() + "-tab";
+                        var paneId = group.Key.Replace(" ", "-").ToLower() + "-pane";
+
+                        <li class="nav_item">
+                            <a class="nav-link @(group == departmentName.First()? "active" : "")" id="@tabId" data-bs-toggle="tab" href="#@paneId" role="tab"
+                                aria-controls="@paneId" aria-selected="@(group == departmentName.First() ? "true" : "false")">
+                                @group.Key
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+
+                <div class="card-body" >
+                    <div class="tab-content" id="tabContent">
+
+                        @foreach (var group in departmentName)
+                        {
+                            var paneId = group.Key.Replace(" ", "-").ToLower() + "-pane";
+
+                            <div class="tab-pane fade @(group == departmentName.First() ? "show active" : "")"
+                                 id="@paneId" role="tabpanel" aria-labelledby="@(paneId)-tab">
+
+                                <h5 class="card-title">Average Scores for @group.Key</h5>
+
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Question</th>
+                                            <th>Average Score</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var result in group)
+                                        {
+                                            <tr>
+                                                <td>@result.QuestionText</td>
+                                                <td>@result.AverageScore</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 d-flex">
+        <div class="card shadow-sm rounded flex-grow-1">
+            <div class="card-header">
+                <h5 class="card-title">Employee Comments</h5>
+            </div>
+
+
+            <div class="card-body overflow-auto" style="max-height: 500px;">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Employee Id</th>
+                            <th>Employee</th>
+                            <th>Department</th>
+                            <th>Comments</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var result in Model.SurveyComments)
+                        {
+                            <tr>
+                                <td>@result.EmployeeId</td>
+                                <td>@result.Employee.FirstName @result.Employee.LastName</td>
+                                <td>@result.Employee.Department.DepartmentName</td>
+                                <td>@result.Comment</td>
+                                
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
 </div>

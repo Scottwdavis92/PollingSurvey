@@ -50,10 +50,30 @@ namespace PollingApplication.Services
             
             }).ToListAsync();
 
-
-
             return allGenQenScore;
 
+        }
+
+        public async Task<List<EmployeeQuestionAverage>> EmployeeQuestionAverage()
+        {
+            var employeeQenScore = await _context.SurveyResponses.GroupBy(q => new {
+                q.Question.Questions,
+                q.Employee.FirstName,
+                q.Employee.LastName,
+                q.Employee.EmployeeId,
+                q.Employee.Department.DepartmentName,
+                q.Question.ScopeType
+            }).Select(q => new EmployeeQuestionAverage
+            {
+                QuestionText = q.Key.Questions,
+                EmployeeName = $"{q.Key.FirstName} {q.Key.LastName}",
+                EmployeeId = q.Key.EmployeeId,
+                DepartmentName = q.Key.DepartmentName,
+                DepartmentType = q.Key.ScopeType,
+                AverageScore = (int)q.Average(s => s.ScaleValue),
+            }).ToListAsync();
+
+            return employeeQenScore;
         }
     }
 }

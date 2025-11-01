@@ -35,10 +35,15 @@ namespace PollingApplication.Controllers
 
             var averageGenQenScore = await _fetchSurveyResults.GetAverageQuestionScore();
 
+            var averageEmpQenScore = await _fetchSurveyResults.EmployeeQuestionAverage();
+
             var viewModel = new SurveyResults
             {
-                 SurveyResponses = employeeResponces,
-                 SurveyComments = employeeComments
+                 
+                 SurveyComments = employeeComments,
+                 GeneralQuestionAverages = averageGenQenScore,
+                 EmployeeQuestionAverages = averageEmpQenScore
+
 
             };
 
