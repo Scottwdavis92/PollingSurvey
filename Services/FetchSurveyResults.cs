@@ -75,5 +75,32 @@ namespace PollingApplication.Services
 
             return employeeQenScore;
         }
+
+        public async Task<List<EmployeeDepartmentSurveyResults>> EmployeeDepartmentQuestionAverage()
+        {
+            var employeeQenScore = await _context.SurveySessions.Select(q => new EmployeeDepartmentSurveyResults
+            {
+
+                EmployeeName = $"{q.Employee.FirstName} {q.Employee.LastName}",
+                EmployeeId = q.Employee.EmployeeId,
+                DepartmentName = q.Employee.Department.DepartmentName,
+
+                StartTime = q.StartTime,
+                EndTime = q.EndTime,
+                IsCompleted = q.Completed ? "Yes" : "No"
+
+            }).ToListAsync();
+
+            return employeeQenScore;
+        }
+
+        public async Task<List<SurveySessionId>> GetAllSurveySessionIdsAsync()
+        {
+            var surveySessionIds = await _context.SurveySessions
+                .Include(ss => ss.Employee)
+                .ToListAsync();
+            _logger.LogInformation("Fetched {Count} survey session IDs.", surveySessionIds.Count);
+            return surveySessionIds;
+        }
     }
 }

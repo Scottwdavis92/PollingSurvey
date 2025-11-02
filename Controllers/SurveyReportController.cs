@@ -120,6 +120,7 @@ namespace PollingApplication.Controllers
             return RedirectToAction("Index", "SurveyReport");
         }
 
+        //not recommended only to use for test and to demo
         [HttpPost]
         public async Task<IActionResult> GiveAdminAccess(SurveyInviteModel SelectedEmployee)
         {
@@ -187,6 +188,35 @@ namespace PollingApplication.Controllers
                 ViewBag.Error = "An error occurred while trying to add the employee to the survey.";
             }
             return RedirectToAction("Index", "SurveyReport"); 
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DepartmentSurvey()
+        {
+            var employeeResponces = await _fetchSurveyResults.GetAllSurveyResponseAsync();
+            var employeeComments = await _fetchSurveyResults.GetAllSurveyCommentsAsync();
+            var allDepartments = await _deparmentFetch.GetAllDepartmentsAsync();
+
+            var averageEmpQenScore = await _fetchSurveyResults.EmployeeQuestionAverage();
+
+
+
+            var averageEmployeeDepartmentScore = await _fetchSurveyResults.EmployeeDepartmentQuestionAverage();
+
+            var viewModel = new SurveyResults
+            {
+                Departments = allDepartments,
+                SurveyComments = employeeComments,
+                
+                EmployeeQuestionAverages = averageEmpQenScore,
+
+                EmployeeDepartmentSurveyResults = averageEmployeeDepartmentScore
+
+
+
+            };
+
+            return View(viewModel);
         }
     }
 }

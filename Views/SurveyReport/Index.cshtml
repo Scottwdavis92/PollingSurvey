@@ -5,16 +5,13 @@
     ViewData["Title"] = "SurveyReport";
 
     var departmentName = Model.GeneralQuestionAverages.GroupBy(d => d.DepartmentName).ToList();
-    var employeeScore = Model.EmployeeQuestionAverages.OrderBy(o => o.DepartmentType).ToList();
+    var employeeScore = Model.EmployeeQuestionAverages.OrderBy(o => o.EmployeeId).ToList();
 
 }
 
 <div class="row mb-4">
     <div class="col-md-8">
         <h1>@ViewData["Title"]</h1>
-    </div>
-    <div class="col-md-4">
-        <button onclick="redirectToSurveyInvite()">Invite Employee</button>
     </div>
 </div>
 

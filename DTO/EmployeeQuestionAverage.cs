@@ -12,6 +12,8 @@
 
         public string DepartmentType { get; set; } = string.Empty;
 
+        public string SessionComplete {  get; set; } = string.Empty;
+
 
     }
 }

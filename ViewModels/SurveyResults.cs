@@ -15,5 +15,9 @@ namespace PollingApplication.ViewModels
 
         public IEnumerable<EmployeeQuestionAverage> EmployeeQuestionAverages { get; set; } = new List<EmployeeQuestionAverage>();
 
+        public IEnumerable<SurveySessionId> SurveySessionId { get; set;} = new List<SurveySessionId>();
+
+        public IEnumerable<EmployeeDepartmentSurveyResults> EmployeeDepartmentSurveyResults { get; set; } = new List<EmployeeDepartmentSurveyResults>();
+
     }
 }
