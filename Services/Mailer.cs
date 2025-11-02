@@ -21,7 +21,7 @@ namespace PollingApplication.Services
             try
             {
                 var message = new MimeMessage();
-                message.From.Add(new MailboxAddress("Sender Name", "CompanyPolling@survey.com"));
+                message.From.Add(new MailboxAddress("Scott Davis", "CompanyPolling@survey.com"));
                 message.To.Add(new MailboxAddress("Recipient Name", survey.Employee.Email));
                 message.Subject = "Hello from Scott's Survey!";
 
@@ -30,7 +30,7 @@ namespace PollingApplication.Services
                                 $"{surveyLink}\n\n" +
                                 "Thank you for your participation!\n\n" +
                                 "Best regards,\n" +
-                                "PollAdmin";
+                                "Polling Admin";
 
                 // Create the email body (can be plain text or HTML)
                 message.Body = new TextPart("plain")
