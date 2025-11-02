@@ -25,6 +25,29 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                        @if (User?.Identity?.IsAuthenticated == true)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="SurveyReport" asp-action="SurveyAdminTools">Admin Tools</a>
+                            </li>
+                            <li class="nav-item">
+                                <form class="form-inline" asp-area="" asp-controller="Account" asp-action="Logout" method="post">
+                                    <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                                </form>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark"
+                                   asp-area=""
+                                   asp-controller="Account"
+                                   asp-action="Login"
+                                   asp-route-returnUrl="@(Context.Request.Path + Context.Request.QueryString)">
+                                    Log In
+                                </a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>

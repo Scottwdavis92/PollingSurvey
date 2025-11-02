@@ -15,6 +15,8 @@ namespace PollingApplication.Startup
             builder.Services.AddScoped<PollingApplication.Services.QuestionFetch>();
             builder.Services.AddScoped<PollingApplication.Services.SubmittedSurvey>();
             builder.Services.AddScoped<PollingApplication.Services.FetchSurveyResults>();
+            builder.Services.AddScoped<PollingApplication.Services.DeparmentFetch>();
+            builder.Services.AddScoped<PollingApplication.Services.CreateAdmin>();
         }
     }
 }

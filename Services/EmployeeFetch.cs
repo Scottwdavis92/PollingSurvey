@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PollingApplication.Data;
+using PollingApplication.DTO;
 using PollingApplication.Models;
 
 namespace PollingApplication.Services
@@ -25,6 +26,43 @@ namespace PollingApplication.Services
             {
                 _logger.LogError(ex, "An error occurred while fetching employees.");
                 return new List<Employee>();
+            }
+        }
+
+        public async Task<Employee?> GetEmployeeByIdAsync(int employeeId)
+        {
+            try
+            {
+                return await _context.Employees.FirstOrDefaultAsync(e => e.EmployeeId == employeeId);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while fetching the employee with ID {EmployeeId}.", employeeId);
+                return null;
+            }
+        }
+
+        public async Task<bool> CreateEmployee(AddEmployee newEmployee)
+        {
+            try
+            {
+                var employee = new Employee
+                {
+                    FirstName = newEmployee.EmployeeFirstName,
+                    LastName = newEmployee.EmployeeLastName,
+                    Email = newEmployee.EmployeeEmail,
+                    Departmentid = newEmployee.DepartmentId
+                    
+                };
+                _context.Employees.Add(employee);
+                await _context.SaveChangesAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while creating a new employee.");
+                return false;
             }
         }
 

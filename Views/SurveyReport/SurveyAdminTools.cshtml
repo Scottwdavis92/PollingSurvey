@@ -1,0 +1,112 @@
+﻿
+@model PollingApplication.ViewModels.SurveyInviteModel
+
+@{
+}
+
+<div class="row mb-4">
+    <div class="col-md-12 d-flex">
+        <div class="card shadow-sm rounded flex-grow-1">
+            <div class="card-header">
+                <h5 class="card-title">Invite Employee</h5>
+            </div>
+
+            <div class="card-body ">
+                <div class="text-center">
+                    <div class="d-flex justify-content-center">
+                        <form asp-controller="SurveyReport" asp-action="SendSurveyInvite" method="post">
+
+                            <div class="form-group text-start">
+                                <label asp-for="SelectedEmployeeId"> Select employee to invite</label>
+                                <select asp-for="SelectedEmployeeId" asp-items="Model.Employees" class="form-control">
+                                    <option value="">-- Choose an option --</option>
+                                </select>
+                            </div>
+
+                            <input type="submit" value="Select" class="btn btn-primary mt-4" />
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-12 d-flex">
+        <div class="card shadow-sm rounded flex-grow-1">
+            <div class="card-header">
+                <h5 class="card-title">Give Admin Access</h5>
+            </div>
+
+            <div class="card-body ">
+                <div class="text-center">
+                    <div class="d-flex justify-content-center">
+                        <form asp-controller="SurveyReport" asp-action="GiveAdminAccess" method="post">
+
+                            <div class="form-group text-start">
+                                <label asp-for="SelectedEmployeeId"> Select employee to give admin rights too</label>
+                                <select asp-for="SelectedEmployeeId" asp-items="Model.Employees" class="form-control">
+                                    <option value="">-- Choose an option --</option>
+                                </select>
+                            </div>
+
+                            <input type="submit" value="Select" class="btn btn-primary mt-4" />
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 d-flex">
+        <div class="card shadow-sm rounded flex-grow-1">
+            <div class="card-header">
+                <h5 class="card-title">Add Employee</h5>
+            </div>
+
+            <div class="card-body ">
+                <div class="text-center">
+                    <div class="d-flex justify-content-center">
+                        <form asp-controller="SurveyReport" asp-action="AddEmployeeToSurvey" method="post">
+
+                            <div class="form-group text-start">
+                                <label asp-for="EmployeeFirstName"> First Name</label>
+                                <input asp-for="EmployeeFirstName" class="form-control" />
+                            </div>
+
+                            <div class="form-group text-start">
+                                <label asp-for="EmployeeLastName"> Last Name</label>
+                                <input asp-for="EmployeeLastName" class="form-control" />
+                            </div>
+
+                            <div class="form-group text-start">
+                                <label asp-for="SelectedDepartmentId"> Department</label>
+                                <select asp-for="SelectedDepartmentId" asp-items="Model.Departments" class="form-control">
+                                    <option value="">-- Choose an option --</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group text-start">
+                                <label asp-for="EmployeeEmail"> Email</label>
+                                <input asp-for="EmployeeEmail" class="form-control" />
+                            </div>
+
+                            <input type="submit" value="Select" class="btn btn-primary mt-4" />
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
