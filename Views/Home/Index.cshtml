@@ -5,14 +5,7 @@
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Welcome to Scott's polling application</p>
+    <p>Tell us what you really think! Our new 'Anonymous' Work Satisfaction Survey promises total confidentiality... and by 'confidentiality,' we mean your honest answers will only be seen by your manager, their manager, and the HR team who will be cross-referencing response times with known bathroom breaks. Seriously, though, hit that 'Strongly Disagree' button—we dare you.</p>
 
-    <button onclick="redirectToSurveyAdmin()">Admin Page</button>
-    
 </div>
 
-<script>
-    function redirectToSurveyAdmin() {
-        // Redirect to the Survey action in Home controller
-        window.location.href = '@Url.Action("Index", "SurveyReport")';
-    }
-</script>
