@@ -87,7 +87,9 @@ namespace PollingApplication.Services
 
                 StartTime = q.StartTime,
                 EndTime = q.EndTime,
-                IsCompleted = q.Completed ? "Yes" : "No"
+                IsCompleted = q.Completed ? "Yes" : "No",
+
+                SessionId = q.Id
 
             }).ToListAsync();
 
@@ -101,6 +103,38 @@ namespace PollingApplication.Services
                 .ToListAsync();
             _logger.LogInformation("Fetched {Count} survey session IDs.", surveySessionIds.Count);
             return surveySessionIds;
+        }
+
+        public async Task<bool> DeleteSurveySessionsAsync(int surveySessionId)
+        {
+            var surveySession = await _context.SurveySessions
+                .FirstOrDefaultAsync(ss => ss.Id == surveySessionId);
+
+            var comments = await _context.SurveyComments
+                .Where(sc => sc.SurveySessionId == surveySessionId)
+                .FirstOrDefaultAsync();
+            if (surveySession != null)
+            {
+                if (comments != null)
+                {
+                    _context.SurveyComments.Remove(comments);
+                    
+                    _logger.LogInformation("Deleted comments for survey session ID: {SurveySessionId}", surveySessionId);
+                }
+
+                _context.SurveySessions.Remove(surveySession);
+                await _context.SaveChangesAsync();
+                _logger.LogInformation("Deleted survey session with ID: {SurveySessionId}", surveySessionId);
+                return true;
+
+            }
+            else
+            {
+                _logger.LogWarning("Survey session with ID: {SurveySessionId} not found for deletion.", surveySessionId);
+                return false;
+
+            }
+            
         }
     }
 }

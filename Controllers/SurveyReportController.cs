@@ -77,7 +77,7 @@ namespace PollingApplication.Controllers
 
             var departments = await _deparmentFetch.GetAllDepartmentsAsync();
 
-            if(departments == null)
+            if (departments == null)
             {
                 _logger.LogError("No departments found.");
                 return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
@@ -187,7 +187,7 @@ namespace PollingApplication.Controllers
                 _logger.LogError(ex, "Error adding employee ID {firstName} {lastName} to survey", newEmployeeAdded.EmployeeFirstName, newEmployeeAdded.EmployeeLastName);
                 ViewBag.Error = "An error occurred while trying to add the employee to the survey.";
             }
-            return RedirectToAction("Index", "SurveyReport"); 
+            return RedirectToAction("Index", "SurveyReport");
         }
 
         [HttpGet]
@@ -207,7 +207,7 @@ namespace PollingApplication.Controllers
             {
                 Departments = allDepartments,
                 SurveyComments = employeeComments,
-                
+
                 EmployeeQuestionAverages = averageEmpQenScore,
 
                 EmployeeDepartmentSurveyResults = averageEmployeeDepartmentScore
@@ -218,5 +218,24 @@ namespace PollingApplication.Controllers
 
             return View(viewModel);
         }
-    }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteSession(int Id)
+        {
+            var deleted = await _fetchSurveyResults.DeleteSurveySessionsAsync(Id);
+
+            if (deleted)
+            {
+                ViewBag.Message = $"Survey session {Id} deleted successfully.";
+            }
+            else
+            {
+                ViewBag.Error = $"Failed to delete survey session {Id}.";
+               
+            }
+
+            return RedirectToAction("DepartmentSurvey", "SurveyReport");
+
+        }
+    }   
 }
