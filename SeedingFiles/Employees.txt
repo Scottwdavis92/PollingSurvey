@@ -5,11 +5,9 @@
          columns: new[] { "EmployeeId", "FirstName", "LastName", "Email", "Departmentid", "ApplicationUserId" },
          values: new object[,]
          {
-             { 2, "Nick", "Barry", "Scottwdavis92@gmail.com", 1, null },
-             { 3, "Stephanie", "Canny", "Scanny@gmail.com", 2, null },
-             { 4, "Scott", "Davis", "Scottwdavis@nebraska.edu", 3, null },
-             { 5, "Casey", "nugent", "Scottwdavis92@gmail.com", 4, null },
-             { 6, "David", "Irvine", "Scottwdavis92@gmail.com", 5, null }
+             { 1, "Nick", "joe", "Scottwdavis92@gmail.com", 1, null },
+             { 2, "Scott", "Davis", "Scottwdavis@nebraska.edu", 3, null },
+
          });
  }
 
